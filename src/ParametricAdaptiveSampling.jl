@@ -1,5 +1,7 @@
 module ParametricAdaptiveSampling
 
+export adaptive_sample_parametric
+
 using LinearAlgebra: norm
 using DataStructures
 using IterTools: partition  # partition in lockstep
@@ -37,7 +39,7 @@ mutable struct Range
     widths::Vector{Float64}
 end
 
-Range(mins, maxs) = Range(mins, maxs, [maxs[i]-mins[i] for i in eachindex(mins)])
+Range(mins, maxs) = Range(mins, maxs, [maxs[i] - mins[i] for i in eachindex(mins)])
 
 function Range(vs)
     v0 = first(vs)
@@ -130,7 +132,7 @@ function adaptive_sample_parametric(
 
     # Fill this from initial segments. We'll update as we go.
     ra = Range(vs_init)
-    for s in segments_init()
+    for s in segments_init
         push_errfun!(queue, errfun, s, ra)
     end
     @debug queue
@@ -142,8 +144,8 @@ function adaptive_sample_parametric(
     # This could be b/c of (1) polar points and (2) values close to 0.
     # Maybe we should commit earlier?
     while !isempty(queue) && length(committed) < max_points
-        s = pop!(queue)
-        if s.error <= rtol
+        (err, s) = pop!(queue)
+        if err <= tolerance
             push!(committed, (s.t1, s.v1))
         else
             s1 = Segment(f, s.t1, s.v1, s.t_mid, s.v_mid)
