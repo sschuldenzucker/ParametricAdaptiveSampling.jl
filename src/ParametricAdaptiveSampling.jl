@@ -84,7 +84,7 @@ end
     adaptive_sample_parametric(f, ts_init)
 
 ### Arguments
-- `f`: The parameteric function. Given a Float64 in `[tmin, tmax]` must return an n-element tuple, where n must be constant across t values.
+- `f`: The parameteric function. Given a Float64 in `[tmin, tmax]` must return an n-element tuple or vector of reals, where n must be constant across t values. This should be at least continuous on the interval.
 - `tmin::Real`: The lower bound of the parameter domain.
 - `tmax::Real`: The upper bound of the parameter domain.
 - `ts_init::Collection{Real}`: If this form is used, the initial t values are given explicitly. Otherwise (with `tmin` and `tmax`) we do initial sampling according to `min_points`. Must have size at least 2.
@@ -203,7 +203,7 @@ Note: This function is often not needed. In many cases, for plotting, it will be
 
 1. f is slow to evaluate.
 2. You want to limit the number of data points for some later computation step that is slow.
-3. You need very high precision in your output, maybe for a non-plotting use cases.
+3. You need very high precision in your output and can't affort _that_ many points, maybe for a non-plotting use case.
 
 In cases 2. and 3., you may also want to use custom values and/or a custom error function in the keyword arguments.
 """
