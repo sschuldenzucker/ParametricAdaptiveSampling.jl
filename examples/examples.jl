@@ -21,6 +21,7 @@ begin
 	function plot_with_markers(plt, ps; plot_markers=true, kwargs...)
 		plot!(plt, ps; label="f", kwargs...)
 		if plot_markers
+			@info "$(length(ps)) points"
 			scatter!(plt, ps, markersize=1, makershape=:circle; label="samples")
 		end
 	end
@@ -33,7 +34,6 @@ end
 Plot first the curve (so you can see stuff), then the curve with markers, then a histogram of t values.
 """
 function plot_parametric_sampling(ps_out; kwargs...)
-	@info "$(length(ps_out[1])) points"
 	plts = plot(layout=(3,1), size=(600,1200))
 	plot_with_markers(plts[1], ps_out[2]; plot_markers=false, kwargs...)
 	plot_with_markers(plts[2], ps_out[2]; kwargs...)
@@ -95,6 +95,50 @@ let f = t -> (1/t, 1/t*sin(t))
 	plot_parametric_sampling(adaptive_sample_parametric(f, 1, 200))
 end
 
+# ╔═╡ 4ecb1a8a-4ce1-4ec3-9bc1-dbe063e60c13
+let
+	# We use our spiral from above but now the input is a pretty tight gaussian.
+	# Note that the path goes down the spiral then back again, but this is not visible.
+	f(t) = 1/t .* (cos(t), sin(t))
+	g(t) = 10pi * exp(-t^2 * 100) + 1
+	h(t) = f(g(t))
+	plot_parametric_sampling(adaptive_sample_parametric(h, -5, 5))
+end
+
+# ╔═╡ 7093501c-b1ea-4e7d-a5c6-c128c8f3dd2c
+# Non-differentiable points are generally fine.
+# (NB we choose a weird xmax to avoid alignment with the initial samples grid)
+plot_with_markers(adaptive_sample(abs, -1, 1.325))
+
+# ╔═╡ 51dab9de-7b47-4943-9007-f8c661c1e35c
+# Currently no implemented feature: Poles don't work and are not detected.
+plot_with_markers(adaptive_sample(tan, 0, pi); ylim=(-20,20))
+
+# ╔═╡ adbf7481-f15f-494f-b3f5-625a8ce69f18
+md"""
+# 3D Plots
+
+This is supported just fine as well, as is any other number of dimensions. Requires the parametric version, though. (non-parametric 3d single-dimensional line plots are weird and not supported)
+
+Note: the adaptive refinement does not consider perspective (of course). This tends to over-sample a bit.
+"""
+
+# ╔═╡ 2a28c543-c115-4f88-93d4-cb89e7eec67c
+"""
+[(a1, b1, c1), (a2, b2, c2)] -> ([a1, a2], [b1, b2], [c1, c2])
+"""
+function split_coords(vs)
+	n = length(vs[1])
+	Tuple([[v[i] for v in vs] for i in 1:n])
+end
+
+# ╔═╡ 67c4f572-4d93-489c-86f9-8a596080ddf5
+let
+	res = adaptive_sample_parametric(t -> (t^0.2, 1/t*cos(t), 1/t*sin(t)), 2, 50pi, tol=1e-3)[2]
+	@info "$(length(res)) points"
+	plot_with_markers(res |> split_coords)
+end
+
 # ╔═╡ Cell order:
 # ╠═e3cdb650-2d89-11f0-112e-c9bdfd106538
 # ╠═1fbba3b2-d27b-46c1-89b4-5e7c786b96b4
@@ -112,3 +156,9 @@ end
 # ╟─41eacfc6-8215-495a-8a9d-f56261012318
 # ╠═333f3810-bee8-4a70-8810-0ae9cf5411ee
 # ╠═dd1ef647-80df-4b07-a9ea-e6cd3696782c
+# ╠═4ecb1a8a-4ce1-4ec3-9bc1-dbe063e60c13
+# ╠═7093501c-b1ea-4e7d-a5c6-c128c8f3dd2c
+# ╠═51dab9de-7b47-4943-9007-f8c661c1e35c
+# ╠═adbf7481-f15f-494f-b3f5-625a8ce69f18
+# ╠═2a28c543-c115-4f88-93d4-cb89e7eec67c
+# ╠═67c4f572-4d93-489c-86f9-8a596080ddf5
