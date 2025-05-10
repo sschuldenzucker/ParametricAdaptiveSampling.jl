@@ -97,6 +97,10 @@ end
 - `min_points::Integer`: Minimum number of t values to sample linearly initially. Pass 2 for no presampling beyond tmin and tmax.
 - `max_points::Real`: Maximum number of points to sample. Pass `Inf` for no limit.
 
+### Returns
+
+Returns `(t values::Vector{Number}, value points::Vector{Tuple})`. For plotting applications, you'll want to discard the t values, i.e., take the second return value only.
+
 ### Notes
 - If `min_points` is low, `range` in `errfun` may be catastrophically small, at least for initial refinement. You probably don't want that.
 
@@ -104,8 +108,12 @@ end
 - Infinite or open t ranges where we would adaptively sample larger/smaller (towards 0) t values. This may be an instance of a more general hook into refinement.
 - Optional penalty for recursion depth (or something like this) to avoid excessive concentration at polar points if `max_points` gets exhausted.
 - Some way of detecting and avoiding polar points. Basically a way to say "it's not useful to plot this, better to cut it out".
-- Option to drop points that are ultimately not needed if the range expands during refinement.
+- Split into more than two parts or point density target in value space. Could help in situations where the midway point is interpolated well, but there is additional variation at some other point.
+- Option to drop points that are ultimately not needed if the range expands during refinement (may reduce number of points, might be useful for some).
 - Optionally, is there some smartness we can do with the derivative of f (calculated using ForwardDiff)?
+- Way to understand that the `ra::Range` below may actually be wrong, e.g., when we use
+  `aspect_ratio=1` in the plot and the plot therefore creates additional space, or some xlim or
+  ylim. Hard to do generically. Maybe use make an option to pass the range explicitly.
 """
 function adaptive_sample_parametric(
     f,
@@ -168,12 +176,13 @@ function adaptive_sample_parametric(
 
     if !isempty(queue)
         max_err = first(queue)[1]
-        @warn "max_points=$max_points reached with errors above tolerarnce. Max error = $(-max_err) > $tol = tolerance"
+        @warn "max_points=$max_points reached with errors above tolerance. Max error = $(-max_err) > $tol = tolerance"
     end
 
     # SOMEDAY can we eliminate sorting by smarter accounting?
     sort!(ps; by = first)
-    return map(first, ps), [p[2] for p in ps]
+    # Convert to Tuple so plot() does the right thing. (kinda sad we have to do this)
+    return map(first, ps), [Tuple(p[2]) for p in ps]
 end
 
 """
