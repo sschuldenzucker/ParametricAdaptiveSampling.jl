@@ -67,14 +67,14 @@ md"""
 """
 
 # ╔═╡ 9422be81-223d-4bf7-9bbb-5dff926a9e16
-plot_with_markers(adaptive_sample(x -> x^2, -10, 10)[2])
+plot_with_markers(adaptive_sample(x -> x^2, -10, 10))
 
 # ╔═╡ a48d67a6-b4e2-4c38-aec9-d84a967e74e8
-plot_with_markers(adaptive_sample(sin, 0, 2*pi)[2])
+plot_with_markers(adaptive_sample(sin, 0, 2*pi))
 
 # ╔═╡ fc4c7d06-09ed-40d8-a60e-541fcdbd2be4
 # Graceful degredation of precision.
-plot_with_markers(adaptive_sample(sin, 0, 2*pi; max_points=20)[2])
+plot_with_markers(adaptive_sample(sin, 0, 2*pi; max_points=20))
 
 # ╔═╡ 41eacfc6-8215-495a-8a9d-f56261012318
 md"""

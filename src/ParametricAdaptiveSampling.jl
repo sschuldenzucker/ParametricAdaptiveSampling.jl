@@ -191,6 +191,14 @@ end
 
 Non-parametric variant of `adaptive_sample_parametric()` for a function f: Number -> Number. See the documentation of that function.
 
+### Returns
+
+This returns a list of pairs (2-tuples), which are the generated points.
+
+Note that the return format is different from `adaptive_sample_parametric()` because there is no separate space of "t values" here.
+
+### When this function is useful
+
 Note: This function is often not needed. In many cases, for plotting, it will be faster to just spam a lot of x values instead. Cases where you _may_ want this function could be:
 
 1. f is slow to evaluate.
@@ -222,7 +230,7 @@ function adaptive_sample(f, xs; tol = 1e-4, errfun = err_relative_range, max_poi
         tol = tol,
         errfun = errfun,
         max_points = max_points,
-    )
+    )[2]
 end
 
 end # module ParametricAdaptiveSampling
