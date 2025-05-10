@@ -73,7 +73,7 @@ plot_with_markers(adaptive_sample(x -> x^2, -10, 10)[2])
 plot_with_markers(adaptive_sample(sin, 0, 2*pi)[2])
 
 # ╔═╡ fc4c7d06-09ed-40d8-a60e-541fcdbd2be4
-# Graceful degredation of precision. Compare these:
+# Graceful degredation of precision.
 plot_with_markers(adaptive_sample(sin, 0, 2*pi; max_points=20)[2])
 
 # ╔═╡ 41eacfc6-8215-495a-8a9d-f56261012318
@@ -86,6 +86,9 @@ let f = t -> (1/t, sin(t))
 	plot_parametric_sampling(adaptive_sample_parametric(f, 1, 200))
 end
 # This breaches max_points, which it has every right to do.
+# Note the pretty even distribution of t values. This is because two effects cancel each other out:
+# - for high t, we don't have crazy variability in y direction but there's actually a lot of these in x direction in value space.
+# - for low t, the other way round.
 
 # ╔═╡ dd1ef647-80df-4b07-a9ea-e6cd3696782c
 let f = t -> (1/t, 1/t*sin(t))
