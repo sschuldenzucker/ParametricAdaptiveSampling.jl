@@ -102,18 +102,27 @@ end
 Returns `(t values::Vector{Number}, value points::Vector{Tuple})`. For plotting applications, you'll want to discard the t values, i.e., take the second return value only.
 
 ### Notes
-- If `min_points` is low, `range` in `errfun` may be catastrophically small, at least for initial refinement. You probably don't want that.
+
+This works as follows: first, it performs an initial presampling step (first form) or accepts a list of initial samples (second form). Then, it considers the segment where the error of linear interpolation across the segment vs the midpoint value (midpoint in t space) is worst and splits it into two halves. Then repeat until all errors are below the tolerance or we run out of points. The estimate of the value range is updated as we add new points.
+
+### Caveats
+
+If `min_points` is low, `range` in `errfun` may be catastrophically small, at least for initial refinement. You probably don't want that. More generally, if the initial samples do not represent the value range reasonably well, in some cases, refinement may add excessive points, and may even reach `max_points` without any meaningful progress. If this happens, you probably want to adjust initial samples.
+
+Recursion is is by splitting into halves, so if your function has details that are missed by this recursive grid, they won't show up. In this case, increasing `min_points` may help. 
 
 ### Features not yet implemented (SOMEDAY)
-- Infinite or open t ranges where we would adaptively sample larger/smaller (towards 0) t values. This may be an instance of a more general hook into refinement.
-- Optional penalty for recursion depth (or something like this) to avoid excessive concentration at polar points if `max_points` gets exhausted.
-- Some way of detecting and avoiding polar points. Basically a way to say "it's not useful to plot this, better to cut it out".
-- Split into more than two parts or point density target in value space. Could help in situations where the midway point is interpolated well, but there is additional variation at some other point.
-- Option to drop points that are ultimately not needed if the range expands during refinement (may reduce number of points, might be useful for some).
-- Optionally, is there some smartness we can do with the derivative of f (calculated using ForwardDiff)?
-- Way to understand that the `ra::Range` below may actually be wrong, e.g., when we use
+
+- Infinite or open t ranges where we would adaptively sample larger/smaller (towards infinity or the edges) t values. This may be an instance of a more general hook into refinement.
+- Some way of detecting and avoiding polar points. Basically a way to say "it's not useful to plot this, better to cut it out". Not clear how we'd do this in a robust way without affecting some functions negatively.
+- Optional penalty for recursion depth (or something like this) to avoid excessive concentration at polar points if `max_points` gets exhausted. This would have to be configured by the user with knowledge of the function, can be detrimental otherwise. Unclear if we want this.
+- Option to split into more than two parts per recursion step. This could help when details are missed by the 2-split recursion (see Caveats).
+- Point density target in value space. Could help in situations where the midway point is interpolated well, but there is additional variation at some other point.
+- Option to drop points that are ultimately not needed if the range expands during refinement (may reduce number of points, might be useful for some later computation steps).
+- Is there some smartness we can do with if the derivative of f is available?
+- A way to understand that the `ra::Range` below may actually be the wrong thing, e.g., when we use
   `aspect_ratio=1` in the plot and the plot therefore creates additional space, or some xlim or
-  ylim. Hard to do generically. Maybe use make an option to pass the range explicitly.
+  ylim. Hard to do generically. Maybe make an option to pass the plot range explicitly.
 """
 function adaptive_sample_parametric(
     f,
