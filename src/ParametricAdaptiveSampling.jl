@@ -1,6 +1,6 @@
 module ParametricAdaptiveSampling
 
-export adaptive_sample_parametric, adaptive_sample
+export sample_adaptive_parametric, sample_adaptive
 
 using LinearAlgebra: norm
 using DataStructures
@@ -80,8 +80,8 @@ end
 ) == 0.025
 
 """
-    adaptive_sample_parametric(f, tmin, tmax)
-    adaptive_sample_parametric(f, ts_init)
+    sample_adaptive_parametric(f, tmin, tmax)
+    sample_adaptive_parametric(f, ts_init)
 
 ### Arguments
 - `f`: The parameteric function. Given a Float64 in `[tmin, tmax]` must return an n-element tuple or vector of reals, where n must be constant across t values. This should be at least continuous on the interval.
@@ -124,7 +124,7 @@ Recursion is is by splitting into halves, so if your function has details that a
   `aspect_ratio=1` in the plot and the plot therefore creates additional space, or some xlim or
   ylim. Hard to do generically. Maybe make an option to pass the plot range explicitly.
 """
-function adaptive_sample_parametric(
+function sample_adaptive_parametric(
     f,
     tmin::Real,
     tmax::Real;
@@ -136,7 +136,7 @@ function adaptive_sample_parametric(
     # Initial uniform sampling
     @assert min_points >= 2
     ts_init = range(tmin, tmax, length = min_points)
-    adaptive_sample_parametric(
+    sample_adaptive_parametric(
         f,
         ts_init;
         tol = tol,
@@ -145,7 +145,7 @@ function adaptive_sample_parametric(
     )
 end
 
-function adaptive_sample_parametric(
+function sample_adaptive_parametric(
     f,
     ts_init;
     tol = 1e-4,
@@ -195,16 +195,16 @@ function adaptive_sample_parametric(
 end
 
 """
-    adaptive_sample(f, xmin, xmax)
-    adaptive_sample(f, xs)
+    sample_adaptive(f, xmin, xmax)
+    sample_adaptive(f, xs)
 
-Non-parametric variant of `adaptive_sample_parametric()` for a function f: Number -> Number. See the documentation of that function.
+Non-parametric variant of `sample_adaptive_parametric()` for a function f: Number -> Number. See the documentation of that function.
 
 ### Returns
 
 This returns a list of pairs (2-tuples), which are the generated points.
 
-Note that the return format is different from `adaptive_sample_parametric()` because there is no separate space of "t values" here.
+Note that the return format is different from `sample_adaptive_parametric()` because there is no separate space of "t values" here.
 
 ### When this function is useful
 
@@ -216,7 +216,7 @@ Note: This function is often not needed. In many cases, for plotting, it will be
 
 In cases 2. and 3., you may also want to use custom values and/or a custom error function in the keyword arguments.
 """
-function adaptive_sample(
+function sample_adaptive(
     f,
     xmin::Real,
     xmax::Real;
@@ -228,12 +228,12 @@ function adaptive_sample(
     # Initial uniform sampling
     @assert min_points >= 2
     xs_init = range(xmin, xmax, length = min_points)
-    adaptive_sample(f, xs_init; tol = tol, errfun = errfun, max_points = max_points)
+    sample_adaptive(f, xs_init; tol = tol, errfun = errfun, max_points = max_points)
 end
 
-function adaptive_sample(f, xs; tol = 1e-4, errfun = err_relative_range, max_points = 4_000)
+function sample_adaptive(f, xs; tol = 1e-4, errfun = err_relative_range, max_points = 4_000)
     f_parametric(x) = (x, f(x))
-    adaptive_sample_parametric(
+    sample_adaptive_parametric(
         f_parametric,
         xs,
         tol = tol,

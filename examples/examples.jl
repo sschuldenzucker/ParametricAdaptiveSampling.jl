@@ -48,17 +48,17 @@ md"""
 
 # ╔═╡ e157d10d-a50f-410a-a0f9-5d17d483d61b
 let f = t -> t .* (cos(t), sin(t))
-	plot_parametric_sampling(adaptive_sample_parametric(f, 0, 4*pi))
+	plot_parametric_sampling(sample_adaptive_parametric(f, 0, 4*pi))
 end
 
 # ╔═╡ 263da49d-9cfe-4405-8718-06efe39421a8
 let f = t -> 1/t .* (cos(t), sin(t))
-	plot_parametric_sampling(adaptive_sample_parametric(f, 1, 10*pi))
+	plot_parametric_sampling(sample_adaptive_parametric(f, 1, 10*pi))
 end
 
 # ╔═╡ 449c99ac-9980-487e-b103-cfc3b7905346
 let f = t -> (1+t*sin(5*t)) .* (cos(t), sin(t))
-	plot_parametric_sampling(adaptive_sample_parametric(f, 1, 10*pi))
+	plot_parametric_sampling(sample_adaptive_parametric(f, 1, 10*pi))
 end
 
 # ╔═╡ a276add9-c720-446a-b2ee-78d91cece448
@@ -67,14 +67,14 @@ md"""
 """
 
 # ╔═╡ 9422be81-223d-4bf7-9bbb-5dff926a9e16
-plot_with_markers(adaptive_sample(x -> x^2, -10, 10))
+plot_with_markers(sample_adaptive(x -> x^2, -10, 10))
 
 # ╔═╡ a48d67a6-b4e2-4c38-aec9-d84a967e74e8
-plot_with_markers(adaptive_sample(sin, 0, 2*pi))
+plot_with_markers(sample_adaptive(sin, 0, 2*pi))
 
 # ╔═╡ fc4c7d06-09ed-40d8-a60e-541fcdbd2be4
 # Graceful degredation of precision.
-plot_with_markers(adaptive_sample(sin, 0, 2*pi; max_points=20))
+plot_with_markers(sample_adaptive(sin, 0, 2*pi; max_points=20))
 
 # ╔═╡ 41eacfc6-8215-495a-8a9d-f56261012318
 md"""
@@ -83,7 +83,7 @@ md"""
 
 # ╔═╡ 333f3810-bee8-4a70-8810-0ae9cf5411ee
 let f = t -> (1/t, sin(t))
-	plot_parametric_sampling(adaptive_sample_parametric(f, 1, 200))
+	plot_parametric_sampling(sample_adaptive_parametric(f, 1, 200))
 end
 # This breaches max_points, which it has every right to do.
 # Note the pretty even distribution of t values. This is because two effects cancel each other out:
@@ -92,7 +92,7 @@ end
 
 # ╔═╡ dd1ef647-80df-4b07-a9ea-e6cd3696782c
 let f = t -> (1/t, 1/t*sin(t))
-	plot_parametric_sampling(adaptive_sample_parametric(f, 1, 200))
+	plot_parametric_sampling(sample_adaptive_parametric(f, 1, 200))
 end
 
 # ╔═╡ 4ecb1a8a-4ce1-4ec3-9bc1-dbe063e60c13
@@ -102,17 +102,17 @@ let
 	f(t) = 1/t .* (cos(t), sin(t))
 	g(t) = 10pi * exp(-t^2 * 100) + 1
 	h(t) = f(g(t))
-	plot_parametric_sampling(adaptive_sample_parametric(h, -5, 5))
+	plot_parametric_sampling(sample_adaptive_parametric(h, -5, 5))
 end
 
 # ╔═╡ 7093501c-b1ea-4e7d-a5c6-c128c8f3dd2c
 # Non-differentiable points are generally fine.
 # (NB we choose a weird xmax to avoid alignment with the initial samples grid)
-plot_with_markers(adaptive_sample(abs, -1, 1.325))
+plot_with_markers(sample_adaptive(abs, -1, 1.325))
 
 # ╔═╡ 51dab9de-7b47-4943-9007-f8c661c1e35c
 # Currently no implemented feature: Poles don't work and are not detected.
-plot_with_markers(adaptive_sample(tan, 0, pi); ylim=(-20,20))
+plot_with_markers(sample_adaptive(tan, 0, pi); ylim=(-20,20))
 
 # ╔═╡ adbf7481-f15f-494f-b3f5-625a8ce69f18
 md"""
@@ -134,7 +134,7 @@ end
 
 # ╔═╡ 67c4f572-4d93-489c-86f9-8a596080ddf5
 let
-	res = adaptive_sample_parametric(t -> (t^0.2, 1/t*cos(t), 1/t*sin(t)), 2, 50pi, tol=1e-3)[2]
+	res = sample_adaptive_parametric(t -> (t^0.2, 1/t*cos(t), 1/t*sin(t)), 2, 50pi, tol=1e-3)[2]
 	@info "$(length(res)) points"
 	plot_with_markers(res |> split_coords)
 end
