@@ -27,15 +27,15 @@ function Segment(f, t1, t2)
     Segment(f, t1, f(t1), t2, f(t2))
 end
 
+"A range of vectors, from the 'lower-left' corner to the 'upper-right' one."
 mutable struct Range
     # Implicit: All lengths are equal
     mins::Vector{Float64}
     maxs::Vector{Float64}
-    # Cached.
-    widths::Vector{Float64}
 end
 
-Range(mins, maxs) = Range(mins, maxs, [maxs[i] - mins[i] for i in eachindex(mins)])
+"Iterator for the widths of each dimension. An iterator of Float64."
+widths(ra::Range) = (ma-mi for (ma, mi) in zip(ra.maxs, ra.mins))
 
 function Range(vs)
     v0 = first(vs)
@@ -45,7 +45,7 @@ function Range(vs)
 end
 
 function empty_range(n::Integer)
-    Range(fill(0.0, n), fill(0.0, n), fill(0.0, n))
+    Range(fill(0.0, n), fill(0.0, n))
 end
 
 "All lengths must be the same and v must use linear indexing"
@@ -53,7 +53,6 @@ function push_range!(range::Range, v)
     for i = 1:length(v)
         range.mins[i] = min(range.mins[i], v[i])
         range.maxs[i] = max(range.maxs[i], v[i])
-        range.widths[i] = range.maxs[i] - range.mins[i]
     end
 end
 
@@ -65,11 +64,11 @@ function maybe_push_errfun!(queue, errfun, tol, x, args...)
     end
 end
 
-"Error relative to the range. Component-wise."
-function err_relative_range(s::Segment, range::Range)
+"An `errfun` for the sampling functions. l-infinity error relative to the range, component-wise."
+function err_relative_range(s::Segment, ra::Range)
     error_components = @. abs(s.v_mid - 0.5 * (s.v1 + s.v2))
-    maximum(zip(error_components, range.widths)) do (err, w)
-        # TODO handle 0. Is this good?
+    maximum(zip(error_components, widths(ra))) do (err, w)
+        # TODO handle 0. Is this good? Maybe we should just raise a descriptive error.
         err / max(w, eps())
     end
 end
