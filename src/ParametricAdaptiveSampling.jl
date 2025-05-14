@@ -118,13 +118,13 @@ Recursion is is by splitting into halves in t space, so if your function has det
 - Infinite or open t ranges where we would adaptively sample larger/smaller (towards infinity or the edges) t values. This may be an instance of a more general hook into refinement.
 - Some way of detecting and avoiding polar points. Basically a way to say "it's not useful to plot this, better to cut it out". Not clear how we'd do this in a robust way without affecting some use cases negatively.
 - Optional penalty for recursion depth (or something like this) to avoid excessive concentration at polar points if `max_points` gets exhausted. This would have to be configured by the user with knowledge of the function, can be detrimental otherwise. Unclear if we want this.
-- Option to split into more than two parts per recursion step. This could help when details are missed by the 2-split recursion (see Caveats).
+- Option to split into more than two parts per recursion step, or to split not into halves but by some other proportions. This could help when details are missed by the 2-split recursion (see Caveats).
 - Point density target in value space. Could help in situations where the midway point is interpolated well linearly, but there is additional variation at some other point.
 - Option to drop points that are ultimately not needed if the range expands during refinement (may reduce number of points, might be useful for some later computation steps).
 - A way to understand that the `Range` may actually be the wrong thing, e.g., when we use
   `aspect_ratio=1` in the plot and the plot therefore creates additional space, or some xlim or
   ylim. Hard to do generically. Maybe make an option to pass the plot range explicitly.
-- Is there some smartness we can do if the (second) derivative of f is available?
+- Is there some smartness we can do if the (second) derivative of f is available? Choosing the splitting point better than at the interval midpoint seems attractive.
 """
 function sample_adaptive_parametric(
     f,
