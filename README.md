@@ -1,6 +1,6 @@
-[![Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://todo.com)
-
 # ParametricAdaptiveSampling.jl
+
+[![Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://todo.com)
 
 A little library for adaptive sampling of one-dimensional parametric curves, mainly for plotting.
 
