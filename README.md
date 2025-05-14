@@ -4,7 +4,7 @@
 
 A little library for adaptive sampling of one-dimensional parametric curves, mainly for plotting.
 
-A small package that exposes a function to adaptively sample points from a parametric function with one-dimensional real domain (e.g., `t::Float64 -> 1/t .* (cos(t), sin(t))`). The main use case is plotting but we do support an arbitrary number of dimensions and other use cases are certainly possible.
+This is a small package that exposes a function to adaptively sample points from a parametric function with one-dimensional real domain (e.g., `t::Float64 -> 1/t .* (cos(t), sin(t))`). The main use case is plotting but we do support an arbitrary number of dimensions and other use cases are certainly possible.
 
 The main algorithm works by successive bipartition in `t` space until linear approximation is good enough at the midpoint (or we run out of points).
 
