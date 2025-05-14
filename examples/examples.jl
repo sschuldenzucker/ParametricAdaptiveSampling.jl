@@ -10,11 +10,14 @@ begin
 	Pkg.activate(".")
 end
 
-# ╔═╡ 1fbba3b2-d27b-46c1-89b4-5e7c786b96b4
-using Revise
+# ╔═╡ 430ea2f1-2dd3-48c5-93ea-775894289b70
+using PlutoLinks: @revise
 
 # ╔═╡ 4282f8c6-568e-492d-83f3-b9b4e1c80392
-using Plots, ParametricAdaptiveSampling
+using Plots
+
+# ╔═╡ 43cdb6a1-0883-454b-bd9b-b7f9b3d22513
+@revise using ParametricAdaptiveSampling
 
 # ╔═╡ d358d19f-8e68-4c33-9936-cb5d16a1b74f
 begin
@@ -141,8 +144,9 @@ end
 
 # ╔═╡ Cell order:
 # ╠═e3cdb650-2d89-11f0-112e-c9bdfd106538
-# ╠═1fbba3b2-d27b-46c1-89b4-5e7c786b96b4
+# ╠═430ea2f1-2dd3-48c5-93ea-775894289b70
 # ╠═4282f8c6-568e-492d-83f3-b9b4e1c80392
+# ╠═43cdb6a1-0883-454b-bd9b-b7f9b3d22513
 # ╠═d358d19f-8e68-4c33-9936-cb5d16a1b74f
 # ╠═18569ebf-448f-40e6-9e7f-53b304b7306a
 # ╟─e6cb2d5a-04e7-4778-949f-fd345d42640f

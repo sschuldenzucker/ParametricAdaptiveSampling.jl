@@ -2,7 +2,7 @@
 
 julia_version = "1.11.5"
 manifest_format = "2.0"
-project_hash = "ead8f56a78e1399acbc6f0ba03c9de9e2d073365"
+project_hash = "8ed49b165a478578ee739480c3504e4a8506d4d1"
 
 [[deps.AliasTables]]
 deps = ["PtrArrays", "Random"]
@@ -741,6 +741,18 @@ deps = ["ExpressionExplorer", "InteractiveUtils", "Markdown"]
 git-tree-sha1 = "9071bfe6d1c3c51f62918513e8dfa0705fbdef7e"
 uuid = "72656b73-756c-7461-726b-72656b6b696b"
 version = "1.2.1"
+
+[[deps.PlutoHooks]]
+deps = ["InteractiveUtils", "Markdown", "UUIDs"]
+git-tree-sha1 = "072cdf20c9b0507fdd977d7d246d90030609674b"
+uuid = "0ff47ea0-7a50-410d-8455-4348d5de0774"
+version = "0.0.5"
+
+[[deps.PlutoLinks]]
+deps = ["FileWatching", "InteractiveUtils", "Markdown", "PlutoHooks", "Revise", "UUIDs"]
+git-tree-sha1 = "8f5fa7056e6dcfb23ac5211de38e6c03f6367794"
+uuid = "0ff47ea0-7a50-410d-8455-4348d5de0420"
+version = "0.1.6"
 
 [[deps.PrecompileSignatures]]
 git-tree-sha1 = "18ef344185f25ee9d51d80e179f8dad33dc48eb1"
