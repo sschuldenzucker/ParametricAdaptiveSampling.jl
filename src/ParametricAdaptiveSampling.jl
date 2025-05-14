@@ -1,6 +1,7 @@
 module ParametricAdaptiveSampling
 
 export sample_adaptive_parametric, sample_adaptive
+public Segment, Range, widths, err_relative_range
 
 using LinearAlgebra: norm
 using DataStructures
