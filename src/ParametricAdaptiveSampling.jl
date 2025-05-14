@@ -127,9 +127,9 @@ function sample_adaptive_parametric(
     f,
     tmin::Real,
     tmax::Real;
-    tol = 1e-4,
+    tol = 5e-4,
     errfun = err_relative_range,
-    min_points::Integer = 10,
+    min_points::Integer = 20,
     max_points = 4_000,
 )
     # Initial uniform sampling
@@ -147,7 +147,7 @@ end
 function sample_adaptive_parametric(
     f,
     ts_init;
-    tol = 1e-4,
+    tol = 5e-4,
     errfun = err_relative_range,
     max_points = 4_000,
 )
@@ -219,7 +219,7 @@ function sample_adaptive(
     f,
     xmin::Real,
     xmax::Real;
-    tol = 1e-4,
+    tol = 5e-4,
     errfun = err_relative_range,
     min_points::Integer = 10,
     max_points = 4_000,
@@ -230,7 +230,7 @@ function sample_adaptive(
     sample_adaptive(f, xs_init; tol = tol, errfun = errfun, max_points = max_points)
 end
 
-function sample_adaptive(f, xs; tol = 1e-4, errfun = err_relative_range, max_points = 4_000)
+function sample_adaptive(f, xs; tol = 5e-4, errfun = err_relative_range, max_points = 4_000)
     f_parametric(x) = (x, f(x))
     sample_adaptive_parametric(
         f_parametric,
