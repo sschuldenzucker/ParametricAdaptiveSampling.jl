@@ -72,3 +72,9 @@ People gave some pointers in [this](https://discourse.julialang.org/t/library-hu
 
 MIT
 
+## Development
+
+This uses the standard Julia setup: use `] instantiate` to get deps. `docs/` and `examples/` use their own environments that import the toplevel package as a dev dependency.
+
+Docs are currently not built automatically b/c I can't be bothered. Build them manually and commit them to the `gh-pages` branch.
+
