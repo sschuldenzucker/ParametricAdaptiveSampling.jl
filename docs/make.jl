@@ -6,9 +6,7 @@ makedocs(
     # modules = [ParametricAdaptiveSampling],
     pages = ["Home" => "index.md", "API Reference" => "api.md"],
     format = Documenter.HTML(
-        # repolink = "file:///Users/steffen/Research-repos/liquidity-density/analysis-jl/ParametricAdaptiveSampling/docs",
+        # I don't like these and they make it harder to browse locally.
         prettyurls = false,
     ),
-    # repo = "https://github.com/sschuldenzucker/ParametricAdaptiveSampling.jl",
-    remotes = nothing,
 )
