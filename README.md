@@ -6,6 +6,8 @@ A little library for adaptive sampling of one-dimensional parametric curves, mai
 
 This is a small package that exposes a function to adaptively sample points from a parametric function with one-dimensional real domain (e.g., `t::Float64 -> 1/t .* (cos(t), sin(t))`). The main use case is plotting but we do support an arbitrary number of dimensions and other use cases are certainly possible.
 
+See [here](https://schuldenzucker.com/ParametricAdaptiveSampling.jl/assets/examples.jl) for some examples.
+
 The main algorithm works by successive bipartition in `t` space until linear approximation is good enough at the midpoint (or we run out of points).
 
 See [`sample_adaptive_parametric()`](https://schuldenzucker.com/ParametricAdaptiveSampling.jl/api.html#ParametricAdaptiveSampling.sample_adaptive_parametric) for details.
@@ -78,5 +80,5 @@ This uses the standard Julia setup: use `] instantiate` to get deps. `docs/` and
 
 Docs are currently not built automatically b/c I can't be bothered. Use `just deploydocs` from a clean main state to make the computer go through the process for you.
 
-Examples have a static version exported from the Pluto notebook. This currently needs to be done manually. Just overwrite the file when you change anything.
+Examples have a static version exported from the Pluto notebook. This currently needs to be done manually. Just overwrite `docs/src/assets/examples.html`.
 
