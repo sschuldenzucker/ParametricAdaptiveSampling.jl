@@ -78,3 +78,5 @@ This uses the standard Julia setup: use `] instantiate` to get deps. `docs/` and
 
 Docs are currently not built automatically b/c I can't be bothered. Use `just deploydocs` from a clean main state to make the computer go through the process for you.
 
+Examples have a static version exported from the Pluto notebook. This currently needs to be done manually. Just overwrite the file when you change anything.
+
