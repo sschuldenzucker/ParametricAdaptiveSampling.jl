@@ -76,5 +76,5 @@ MIT
 
 This uses the standard Julia setup: use `] instantiate` to get deps. `docs/` and `examples/` use their own environments that import the toplevel package as a dev dependency.
 
-Docs are currently not built automatically b/c I can't be bothered. Build them manually and commit them to the `gh-pages` branch. This is a bit nonstandard and messy but, again, I can't be bothered.
+Docs are currently not built automatically b/c I can't be bothered. Use `just deploydocs` from a clean main state to make the computer go through the process for you.
 
