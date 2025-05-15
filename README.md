@@ -1,6 +1,6 @@
 # ParametricAdaptiveSampling.jl
 
-[![Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://todo.com)
+[![Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://schuldenzucker.com/ParametricAdaptiveSampling.jl/)
 
 A little library for adaptive sampling of one-dimensional parametric curves, mainly for plotting.
 
@@ -8,9 +8,9 @@ This is a small package that exposes a function to adaptively sample points from
 
 The main algorithm works by successive bipartition in `t` space until linear approximation is good enough at the midpoint (or we run out of points).
 
-See [`sample_adaptive_parametric()`](https://todo.com) for details.
+See [`sample_adaptive_parametric()`](https://schuldenzucker.com/ParametricAdaptiveSampling.jl/api.html#ParametricAdaptiveSampling.sample_adaptive_parametric) for details.
 
-As a bonus, we also get non-parametric adaptive sampling (of `sin`, say). See [`sample_adaptive()`](https://todo.com).
+As a bonus, we also get non-parametric adaptive sampling (of `sin`, say). See [`sample_adaptive()`](https://schuldenzucker.com/ParametricAdaptiveSampling.jl/api.html#ParametricAdaptiveSampling.sample_adaptive).
 
 ## Installation
 
@@ -32,7 +32,7 @@ let _ts, points = sample_adaptive_parametric(f, 1, 10*pi)
 end
 ```
 
-`sample_adaptive_parametric()` has a number of keyword arguments to control its behavior. See [the docs](https://todo.com).
+`sample_adaptive_parametric()` has a number of keyword arguments to control its behavior. See [the docs](https://schuldenzucker.com/ParametricAdaptiveSampling.jl/api.html#ParametricAdaptiveSampling.sample_adaptive_parametric).
 
 ### Non-parametric version
 
@@ -44,7 +44,7 @@ using Plots
 plot(sample_adaptive(sin, 0, 2*pi))
 ```
 
-Note that in a non-parametric use case, adaptive sampling is often not needed. See [the docs](https://todo.com)..
+Note that in a non-parametric use case, adaptive sampling is often not needed. See [the docs](https://schuldenzucker.com/ParametricAdaptiveSampling.jl/api.html#ParametricAdaptiveSampling.sample_adaptive)..
 
 ## Features
 
