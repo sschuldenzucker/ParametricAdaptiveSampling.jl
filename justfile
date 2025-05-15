@@ -1,3 +1,7 @@
 # Create docs
 makedocs:
-    cd docs/; julia --project=. make.jl
+    cd docs/; just makedocs
+
+# Deploy docs to gh-pages. Requires a clean repo.
+deploydocs:
+    cd docs/; just deploydocs

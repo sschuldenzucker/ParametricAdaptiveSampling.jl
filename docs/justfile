@@ -1,0 +1,13 @@
+# Create docs, don't do anything else.
+makedocs:
+    julia --project=. make.jl
+
+# Manually deploy docs to gh-pages. Requires a clean repo (except for docs/build/).
+deploydocs: makedocs
+    git switch gh-pages
+    git rm -rf .
+    cp -r docs/build/* ./
+    git add .
+    git commit -m 'update docs'
+    git push
+
